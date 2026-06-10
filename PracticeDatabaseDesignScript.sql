@@ -10,10 +10,9 @@ CREATE TABLE ingredients (
 CREATE TABLE ingredientprofile (
      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
      emoji varchar(2) NULL default '',
-     -- fix for decimal - 2 places
-     price DECIMAL(3,2) NULL default 0,
-          ingredient_id int not null references ingredients(id)
-     -- FOREIGN KEY (ingredients_id) REFERENCES ingredients(id)
+     price DECIMAL(3,2) NULL default 0
+      , ingredient_id int not null references ingredients(id)
+     -- , FOREIGN KEY (ingredients_id) REFERENCES ingredients(id)
 );
 
 CREATE TABLE dietaryfilters (
@@ -34,10 +33,16 @@ CREATE TABLE dietaryfilters (
     kidneyFriendly boolean null default false,
     lowFodmap boolean null default false,
 	spiceSensitive boolean null default false,
-    textureFriendly boolean null default false,
-    -- FOREIGN KEY (ingredients_id) REFERENCES ingredients(id)
-    ingredient_id int not null references ingredients(id)
+    textureFriendly boolean null default false
+     , ingredient_id int not null references ingredients(id)
+    -- , FOREIGN KEY (ingredients_id) REFERENCES ingredients(id) 
 );
+
+ALTER TABLE ingredientprofile 
+ADD FOREIGN KEY (ingredient_id) REFERENCES ingredients(id);
+
+ALTER TABLE dietaryfilters 
+ADD FOREIGN KEY (ingredient_id) REFERENCES ingredients(id);
 
 INSERT INTO ingredients (name, category) VALUES
     ('Burrata', 'protein'),
